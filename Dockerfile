@@ -1,8 +1,9 @@
 # syntax=docker/dockerfile:1
 
-FROM php:8.2-apache
 
-# Instalacija sistemskih paketa i PHP ekstenzija neophodnih za Laravel i MySQL
+FROM php:8.4-apache
+
+# 1. Instalacija sistemskih paketa i PHP ekstenzija
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
@@ -14,21 +15,27 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Omogući Apache mod_rewrite (kritično za Laravel rute/linkove)
+# 2. Instalacija Composera unutar samog build procesa
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 3. Omogući Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Podesi Apache da gleda direktno u /public folder
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+# 4. Podesi Apache Document Root direktno na podfolder projekta
+ENV APACHE_DOCUMENT_ROOT /var/www/html/PregledLicnihFinansija/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Kopiraj fajlove projekta
+# 5. Postavi radni direktorijum i kopiraj sve fajlove projekta
+WORKDIR /var/www/html
 COPY . /var/www/html
 
-# Postavi dozvole
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# 6. AUTOMATSKA INSTALACIJA COMPOSER 
+RUN composer install --working-dir=PregledLicnihFinansija --no-interaction --optimize-autoloader --ignore-platform-reqs
 
-# Koristi produkcionu PHP konfiguraciju
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+# 7. Postavi dozvole za Laravel unutar podfoldera
+RUN mkdir -p /var/www/html/PregledLicnihFinansija/storage /var/www/html/PregledLicnihFinansija/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html/PregledLicnihFinansija/storage /var/www/html/PregledLicnihFinansija/bootstrap/cache
 
-USER www-data
+# 8. Koristi razvojnu PHP konfiguraciju (bolja je za rad i ispis grešaka)
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
