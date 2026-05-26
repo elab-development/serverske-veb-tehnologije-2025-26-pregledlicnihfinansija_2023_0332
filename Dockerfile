@@ -41,6 +41,7 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # 9. Pripremi entrypoint skriptu 
 RUN chmod +x /var/www/html/docker-entrypoint.sh
+RUN sed -i 's/\r$//' /var/www/html/docker-entrypoint.sh
 
 # 10. Pokreni skriptu pri startu kontejnera
 ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
