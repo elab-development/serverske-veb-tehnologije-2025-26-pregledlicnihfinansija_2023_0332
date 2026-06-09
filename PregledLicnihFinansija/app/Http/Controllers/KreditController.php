@@ -22,18 +22,6 @@ class KreditController extends Controller
         $user = $request->user();
         $klijent = Klijent::where('user_id', $user->id)->first();
 
-        if (!$klijent) {
-            return response()->json([
-                'message' => 'Korisnik nije klijent.'
-            ], 403);
-        }
-
-        if (!$klijent->isPremium()) {
-            return response()->json([
-                'message' => 'Samo premium korisnici mogu da dodaju kredite.'
-            ], 403);
-        }
-
         $kredit = Kredit::create([
             'klijent_id' => $klijent->id,
             'pozajmljenaCifra' => $request->pozajmljenaCifra,
@@ -54,18 +42,6 @@ class KreditController extends Controller
         /** @var User $user */
         $user = $request->user();
         $klijent = Klijent::where('user_id', $user->id)->first();
-
-        if (!$klijent) {
-            return response()->json([
-                'message' => 'Korisnik nije klijent.'
-            ], 403);
-        }
-
-        if (!$klijent->isPremium()) {
-            return response()->json([
-                'message' => 'Samo premium korisnici mogu da pregledaju kredite.'
-            ], 403);
-        }
 
         $krediti = Kredit::where('klijent_id', $klijent->id)
             ->get()
