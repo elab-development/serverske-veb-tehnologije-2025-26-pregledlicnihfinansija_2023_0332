@@ -32,4 +32,8 @@ class Klijent extends Model
     {
         return $this->premium_klijent === true;
     }
+    public function transakcije()
+    {
+        return $this->hasMany(Transakcija::class);
+    }
 }
