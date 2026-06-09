@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transakcija;
+use App\Models\Kategorija;
 use App\Models\Klijent;
+use App\Models\Limit;
+use App\Models\Transakcija;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class TransakcijaController extends Controller
 {
+    
     // Use case 3 - Unos transakcije
     
     public function store(Request $request)
@@ -36,7 +39,11 @@ class TransakcijaController extends Controller
         'datum' => $request->datum,
     ]);
 
-    $limit = \App\Models\Limit::where('user_id', $user->id)
+        if ($klijent->isPremium()) {
+            $klijent->azurirajNetWorth();
+        }   
+
+    $limit = Limit::where('user_id', $user->id)
         ->where('kategorija_id', $request->kategorija_id)
         ->first();
 
@@ -129,6 +136,10 @@ class TransakcijaController extends Controller
         }
 
         $transakcija->delete();
+
+        if ($klijent->isPremium()) {
+            $klijent->azurirajNetWorth();
+        }
 
         return response()->json([
             'message' => 'Transakcija uspešno obrisana.'

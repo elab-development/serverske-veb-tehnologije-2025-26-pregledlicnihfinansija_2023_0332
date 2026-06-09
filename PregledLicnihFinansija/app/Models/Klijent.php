@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Kredit;
+use App\Models\Transakcija;
 
 class Klijent extends Model
 {
@@ -40,4 +42,27 @@ class Klijent extends Model
     {
         return $this->hasMany(Kredit::class);
     }
+    public function azurirajNetWorth(): void
+    {
+        $prihodi = Transakcija::where('klijent_id', $this->id)
+            ->whereHas('kategorija', fn($q) => $q->where('tip', 'prihod'))
+            ->sum('kolicina');
+
+        $troskovi = Transakcija::where('klijent_id', $this->id)
+            ->whereHas('kategorija', fn($q) => $q->where('tip', 'trosak'))
+            ->sum('kolicina');
+
+        $dugovi = Kredit::where('klijent_id', $this->id)
+            ->get()
+            ->sum(fn($k) => $k->pozajmljenaCifra * (1 + $k->kamatnaStopa / 100));
+
+        $this->net_worth = $prihodi - $troskovi - $dugovi;
+        $this->save();
+    }
+    public function getNetWorth(): float
+    {
+        $this->azurirajNetWorth();
+        return $this->net_worth;
+    }
 }
+

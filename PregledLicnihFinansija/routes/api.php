@@ -5,6 +5,7 @@ use App\Http\Controllers\KategorijaController;
 use App\Http\Controllers\TransakcijaController;
 use App\Http\Controllers\LimitController;
 use App\Http\Controllers\KreditController;
+use App\Http\Controllers\KlijentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -39,11 +40,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('limiti', LimitController::class)->except(['create', 'edit']);
 
-    // Krediti - samo premium korisnici
+    // samo premium korisnici
     Route::middleware(IsPremium::class)->group(function () {
         Route::get('/krediti', [KreditController::class, 'index']);
         Route::post('/krediti', [KreditController::class, 'store']);
         Route::patch('/krediti/{id}', [KreditController::class, 'update']);
         Route::delete('/krediti/{id}', [KreditController::class, 'destroy']);
+        Route::get('/net-worth', [KlijentController::class, 'netWorth']);
     });
 });
