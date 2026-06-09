@@ -10,35 +10,58 @@ use Illuminate\Http\Request;
 class TransakcijaController extends Controller
 {
     // Use case 3 - Unos transakcije
+    
     public function store(Request $request)
     {
-        $request->validate([
-            'kategorija_id' => 'required|exists:kategorije,id',
-            'kolicina' => 'required|numeric',
-            'datum' => 'required|date',
-        ]);
+    $request->validate([
+        'kategorija_id' => 'required|exists:kategorije,id',
+        'kolicina' => 'required|numeric',
+        'datum' => 'required|date',
+    ]);
 
-        /** @var User $user */
-        $user = $request->user();
-        $klijent = Klijent::where('user_id', $user->id)->first();
+    /** @var User $user */
+    $user = $request->user();
+    $klijent = Klijent::where('user_id', $user->id)->first();
 
-        if (!$klijent) {
-            return response()->json([
-                'message' => 'Korisnik nije klijent.'
-            ], 403);
-        }
-
-        $transakcija = Transakcija::create([
-            'klijent_id' => $klijent->id,
-            'kategorija_id' => $request->kategorija_id,
-            'kolicina' => $request->kolicina,
-            'datum' => $request->datum,
-        ]);
-
+    if (!$klijent) {
         return response()->json([
-            'message' => 'Transakcija uspešno dodata!',
-            'transakcija' => $transakcija,
-        ], 201);
+            'message' => 'Korisnik nije klijent.'
+        ], 403);
+    }
+
+    $transakcija = Transakcija::create([
+        'klijent_id' => $klijent->id,
+        'kategorija_id' => $request->kategorija_id,
+        'kolicina' => $request->kolicina,
+        'datum' => $request->datum,
+    ]);
+
+    $limit = \App\Models\Limit::where('user_id', $user->id)
+        ->where('kategorija_id', $request->kategorija_id)
+        ->first();
+
+    $upozorenje = null;
+
+    if ($limit) {
+        $ukupnoPotrošeno = Transakcija::where('klijent_id', $klijent->id)
+            ->where('kategorija_id', $request->kategorija_id)
+            ->sum('kolicina');
+
+        $procenat = ($ukupnoPotrošeno / $limit->iznos) * 100;
+
+        if ($procenat >= 100) {
+            $upozorenje = 'Prešli ste limit za ovu kategoriju!';
+        } elseif ($procenat >= 80) {
+            $upozorenje = 'Upozorenje: Potrošili ste ' . round($procenat) . '% od vašeg limita!';
+        }
+    }
+
+    return response()->json([
+        'message' => 'Transakcija uspešno dodata!',
+        'transakcija' => $transakcija,
+        'upozorenje' => $upozorenje,
+    ], 201);
+
     }
 
     // Use case 6 - Istorija aktivnosti
