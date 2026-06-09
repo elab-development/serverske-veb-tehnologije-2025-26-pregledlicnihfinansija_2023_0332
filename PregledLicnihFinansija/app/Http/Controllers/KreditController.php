@@ -76,4 +76,36 @@ class KreditController extends Controller
             'message' => 'Kredit uspešno obrisan.'
         ]);
     }
+
+    // Izmena mesecne rate kredita
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'mesecnaRata' => 'required|numeric|min:0',
+        ]);
+
+    /** @var User $user */
+    $user = $request->user();
+    $klijent = Klijent::where('user_id', $user->id)->first();
+
+    $kredit = Kredit::where('id', $id)
+        ->where('klijent_id', $klijent->id)
+        ->first();
+
+    if (!$kredit) {
+        return response()->json([
+            'message' => 'Kredit nije pronađen.'
+        ], 404);
+    }
+
+    $kredit->update([
+        'mesecnaRata' => $request->mesecnaRata,
+    ]);
+
+    return response()->json([
+        'message' => 'Mesečna rata uspešno izmenjena!',
+        'kredit' => $kredit,
+        'meseci_do_otplate' => $kredit->racunajVremeOtplate(),
+    ]);
+}
 }

@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(IsPremium::class)->group(function () {
         Route::get('/krediti', [KreditController::class, 'index']);
         Route::post('/krediti', [KreditController::class, 'store']);
+        Route::patch('/krediti/{id}', [KreditController::class, 'update']);
         Route::delete('/krediti/{id}', [KreditController::class, 'destroy']);
     });
 });
