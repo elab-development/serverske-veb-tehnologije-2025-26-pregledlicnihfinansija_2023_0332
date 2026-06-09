@@ -9,9 +9,7 @@ use App\Models\Kategorija;
 
 class KategorijaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    
     public function run(): void
     {
         $kategorije = [
