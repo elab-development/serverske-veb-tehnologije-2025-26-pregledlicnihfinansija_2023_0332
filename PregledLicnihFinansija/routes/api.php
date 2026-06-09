@@ -48,4 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/krediti/{id}', [KreditController::class, 'destroy']);
         Route::get('/net-worth', [KlijentController::class, 'netWorth']);
     });
+
+    Route::get('/profil', [KlijentController::class, 'profil']);
 });
