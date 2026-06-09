@@ -36,4 +36,8 @@ class Klijent extends Model
     {
         return $this->hasMany(Transakcija::class);
     }
+    public function krediti()
+    {
+        return $this->hasMany(Kredit::class);
+    }
 }

@@ -3,9 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategorijaController;
 use App\Http\Controllers\TransakcijaController;
+use App\Http\Controllers\KreditController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsPremium;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -32,4 +34,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/transakcije', [TransakcijaController::class, 'store']);
     Route::get('/transakcije/filter', [TransakcijaController::class, 'filter']);
     Route::delete('/transakcije/{id}', [TransakcijaController::class, 'destroy']);
+
+    // Krediti - samo premium korisnici
+    Route::middleware(IsPremium::class)->group(function () {
+        Route::get('/krediti', [KreditController::class, 'index']);
+        Route::post('/krediti', [KreditController::class, 'store']);
+        Route::patch('/krediti/{id}', [KreditController::class, 'update']);
+        Route::delete('/krediti/{id}', [KreditController::class, 'destroy']);
+    });
 });
