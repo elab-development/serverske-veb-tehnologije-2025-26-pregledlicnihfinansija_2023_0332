@@ -32,12 +32,35 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property string $naziv
+ * @property string $tip
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transakcija> $transakcije
+ * @property-read int|null $transakcije_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija whereNaziv($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija whereTip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategorija whereUpdatedAt($value)
+ */
+	class Kategorija extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
  * @property int $user_id
  * @property float $net_worth
  * @property bool $premium_klijent
  * @property string $preferred_currency
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transakcija> $transakcije
+ * @property-read int|null $transakcije_count
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Klijent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Klijent newQuery()
@@ -51,6 +74,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Klijent whereUserId($value)
  */
 	class Klijent extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property-read \App\Models\Kategorija|null $kategorija
+ * @property-read \App\Models\Klijent|null $klijent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transakcija newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transakcija newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transakcija query()
+ */
+	class Transakcija extends \Eloquent {}
 }
 
 namespace App\Models{

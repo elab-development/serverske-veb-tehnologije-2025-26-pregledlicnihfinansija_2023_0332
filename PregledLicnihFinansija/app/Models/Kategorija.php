@@ -12,4 +12,9 @@ class Kategorija extends Model
         'naziv',
         'tip'
     ];
+
+    public function transakcije()
+    {
+        return $this->hasMany(Transakcija::class);
+    }
 }
