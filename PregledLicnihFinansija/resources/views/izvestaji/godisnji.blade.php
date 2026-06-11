@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Godišnji izveštaj</title>
+    <title>Godisnji izvestaj</title>
     <style>
         body { font-family: Arial, sans-serif; }
         table { width: 100%; border-collapse: collapse; }
@@ -14,13 +14,13 @@
     </style>
 </head>
 <body>
-    <h1>Godišnji izveštaj - {{ $godina }}</h1>
+    <h1>Godisnji izvestaj - {{ $godina }}</h1>
     <table>
         <thead>
             <tr>
                 <th>Mesec</th>
                 <th>Ukupni prihodi</th>
-                <th>Ukupni troškovi</th>
+                <th>Ukupni troskovi</th>
                 <th>Bilans</th>
             </tr>
         </thead>
@@ -39,8 +39,8 @@
     </table>
     <div class="summary">
         <p><strong>Ukupni prihodi za godinu:</strong> {{ $ukupni_prihodi }}</p>
-        <p><strong>Ukupni troškovi za godinu:</strong> {{ $ukupni_troskovi }}</p>
-        <p><strong>Godišnji bilans:</strong> {{ $bilans }}</p>
+        <p><strong>Ukupni troskovi za godinu:</strong> {{ $ukupni_troskovi }}</p>
+        <p><strong>Godisnji bilans:</strong> {{ $bilans }}</p>
     </div>
 </body>
 </html>

@@ -7,6 +7,7 @@ use App\Http\Controllers\LimitController;
 use App\Http\Controllers\KreditController;
 use App\Http\Controllers\KlijentController;
 use App\Http\Controllers\KonverzijaController;
+use App\Http\Controllers\IzvestajController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -48,6 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/krediti/{id}', [KreditController::class, 'update']);
         Route::delete('/krediti/{id}', [KreditController::class, 'destroy']);
         Route::get('/net-worth', [KlijentController::class, 'netWorth']);
+        Route::get('/izvestaj/mesecni', [IzvestajController::class, 'mesecni']);
+        Route::get('/izvestaj/godisnji', [IzvestajController::class, 'godisnji']);
+        Route::get('/izvestaj/mesecni/pdf', [IzvestajController::class, 'mesecniPDF']);
+        Route::get('/izvestaj/mesecni/csv', [IzvestajController::class, 'mesecniCSV']);
+        Route::get('/izvestaj/godisnji/pdf', [IzvestajController::class, 'godisnjiPDF']);
+        Route::get('/izvestaj/godisnji/csv', [IzvestajController::class, 'godisnjiCSV']);
     });
 
     Route::get('/profil', [KlijentController::class, 'profil']);

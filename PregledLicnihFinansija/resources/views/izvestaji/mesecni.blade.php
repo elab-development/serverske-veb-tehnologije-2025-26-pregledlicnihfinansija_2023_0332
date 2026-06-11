@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Mesečni izveštaj</title>
+    <title>Mesecni izvestaj</title>
     <style>
         body { font-family: Arial, sans-serif; }
         table { width: 100%; border-collapse: collapse; }
@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h1>Mesečni izveštaj - {{ $mesec }}/{{ $godina }}</h1>
+    <h1>Mesecni izvestaj - {{ $mesec }}/{{ $godina }}</h1>
     <table>
         <thead>
             <tr>
@@ -35,7 +35,7 @@
     </table>
     <div class="summary">
         <p><strong>Ukupni prihodi:</strong> {{ $ukupni_prihodi }}</p>
-        <p><strong>Ukupni troškovi:</strong> {{ $ukupni_troskovi }}</p>
+        <p><strong>Ukupni troskovi:</strong> {{ $ukupni_troskovi }}</p>
         <p><strong>Bilans:</strong> {{ $bilans }}</p>
     </div>
 </body>
