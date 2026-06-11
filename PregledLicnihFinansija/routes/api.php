@@ -6,6 +6,7 @@ use App\Http\Controllers\TransakcijaController;
 use App\Http\Controllers\LimitController;
 use App\Http\Controllers\KreditController;
 use App\Http\Controllers\KlijentController;
+use App\Http\Controllers\KonverzijaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -50,4 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('/profil', [KlijentController::class, 'profil']);
+
+    // Konverzija valuta
+    Route::get('/valute', [KonverzijaController::class, 'valute']);
+    Route::post('/konvertuj', [KonverzijaController::class, 'konvertuj']);
+    Route::post('/promeni-valutu', [KonverzijaController::class, 'promeniValutu']);
 });
