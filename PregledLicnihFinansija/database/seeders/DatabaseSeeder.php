@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             KategorijaSeeder::class,
             UserSeeder::class,
+            TransakcijaSeeder::class,
+            LimitSeeder::class,
+            KreditSeeder::class,
+            GrupnaTransakcijaSeeder::class,
         ]);
     }
 }
+    

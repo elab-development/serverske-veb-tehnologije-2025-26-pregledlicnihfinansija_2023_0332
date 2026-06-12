@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class GrupnaTransakcija extends Model
 {
+    use HasFactory;
     protected $table = 'grupne_transakcije';
 
     protected $fillable = [
