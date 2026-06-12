@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Kredit;
 use App\Models\Transakcija;
+use App\Models\GrupnaTransakcija;
+use App\Models\UdeoUGrupnojTransakciji;
 
 class Klijent extends Model
 {
@@ -63,6 +65,16 @@ class Klijent extends Model
     {
         $this->azurirajNetWorth();
         return $this->net_worth;
+    }
+
+    public function grupneTransakcije()
+    {
+        return $this->hasMany(GrupnaTransakcija::class, 'kreator_id');
+    }
+
+    public function udeli()
+    {
+        return $this->hasMany(UdeoUGrupnojTransakciji::class);
     }
 }
 

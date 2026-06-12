@@ -6,5 +6,36 @@ use Illuminate\Database\Eloquent\Model;
 
 class GrupnaTransakcija extends Model
 {
-    //
+    protected $table = 'grupne_transakcije';
+
+    protected $fillable = [
+        'kreator_id',
+        'naziv',
+        'ciljIznos',
+        'trenutnoPrikupljeno',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'ciljIznos' => 'double',
+            'trenutnoPrikupljeno' => 'double',
+        ];
+    }
+
+    public function kreator()
+    {
+        return $this->belongsTo(Klijent::class, 'kreator_id');
+    }
+
+    public function udeli()
+    {
+        return $this->hasMany(UdeoUGrupnojTransakciji::class);
+    }
+
+    // Use case 10 - proverava stanje prikupljanja
+    public function proveriStanje(): float
+    {
+        return ($this->trenutnoPrikupljeno / $this->ciljIznos) * 100;
+    }
 }
