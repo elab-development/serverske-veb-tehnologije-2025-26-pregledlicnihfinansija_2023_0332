@@ -32,4 +32,8 @@ class UdeoUGrupnojTransakciji extends Model
     {
         return $this->belongsTo(Klijent::class);
     }
+    public function clanovi()
+    {
+        return $this->belongsToMany(Klijent::class, 'udeli_u_grupnoj_transakciji', 'grupna_transakcija_id', 'klijent_id');
+    }
 }

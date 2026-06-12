@@ -8,6 +8,7 @@ use App\Http\Controllers\KreditController;
 use App\Http\Controllers\KlijentController;
 use App\Http\Controllers\KonverzijaController;
 use App\Http\Controllers\IzvestajController;
+use App\Http\Controllers\GrupnaTransakcijaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -55,6 +56,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/izvestaj/mesecni/csv', [IzvestajController::class, 'mesecniCSV']);
         Route::get('/izvestaj/godisnji/pdf', [IzvestajController::class, 'godisnjiPDF']);
         Route::get('/izvestaj/godisnji/csv', [IzvestajController::class, 'godisnjiCSV']);
+        Route::get('/grupe', [GrupnaTransakcijaController::class, 'index']);
+        Route::post('/grupe', [GrupnaTransakcijaController::class, 'store']);
+        Route::get('/grupe/{id}', [GrupnaTransakcijaController::class, 'show']);
+        Route::post('/grupe/{id}/uplati', [GrupnaTransakcijaController::class, 'uplatiUdeo']);
+        Route::post('/grupe/{id}/dodaj-clana', [GrupnaTransakcijaController::class, 'dodajClana']);
+        Route::delete('/grupe/{id}', [GrupnaTransakcijaController::class, 'destroy']);
     });
 
     Route::get('/profil', [KlijentController::class, 'profil']);

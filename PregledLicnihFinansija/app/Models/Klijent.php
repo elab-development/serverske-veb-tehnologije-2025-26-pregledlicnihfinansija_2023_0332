@@ -76,5 +76,9 @@ class Klijent extends Model
     {
         return $this->hasMany(UdeoUGrupnojTransakciji::class);
     }
+    public function grupneTransakcijeKaoClan()
+    {
+        return $this->belongsToMany(GrupnaTransakcija::class, 'udeli_u_grupnoj_transakciji', 'klijent_id', 'grupna_transakcija_id');
+    }
 }
 
