@@ -15,7 +15,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->type !== 'admin') {
+        if ($request->user()->type !== 'administrator') {
         return response()->json(['poruka' => 'Nemate pristup'], 403);
         }
 
