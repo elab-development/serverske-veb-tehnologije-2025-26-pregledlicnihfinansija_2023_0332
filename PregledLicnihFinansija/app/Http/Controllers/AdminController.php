@@ -27,6 +27,20 @@ class AdminController extends Controller
         return response()->json(['poruka' => 'Uloga je uspesno promenjena!', 'korisnik' => $korisnik]);
     }
 
+    public function promeniPremium(Request $request, $id)
+    {
+        $request->validate([
+            'isPremium' => 'required|boolean', 
+        ]);
+
+        $klijent = \App\Models\Klijent::where('user_id', $id)->firstOrFail();
+        $klijent->update(['isPremium' => $request->isPremium]);
+
+        return response()->json(['poruka' => 'Premium status uspesno postavljen', 'klijent' => $klijent]);
+
+    }
+
+
     public function analitika()
     {
         $ukupnoKorisnika = User::count();
