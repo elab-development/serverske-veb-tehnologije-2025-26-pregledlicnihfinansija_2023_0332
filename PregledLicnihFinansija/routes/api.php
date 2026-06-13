@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/admin/korisnici', [AdminController::class, 'korisnici']);
         Route::put('/admin/korisnici/{id}/uloga', [AdminController::class, 'primeniUlogu']);
         Route::get('/admin/analitika', [AdminController::class, 'analitika']);
-
+        Route::put('/admin/korisnici/{id}/premium', [AdminController::class, 'promeniPremium']);
     });
 
     // Transakcije
