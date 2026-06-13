@@ -9,9 +9,11 @@ use App\Http\Controllers\KlijentController;
 use App\Http\Controllers\KonverzijaController;
 use App\Http\Controllers\IzvestajController;
 use App\Http\Controllers\GrupnaTransakcijaController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
+
 
 use App\Http\Middleware\IsPremium;
 
@@ -33,6 +35,11 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::middleware(IsAdmin::class)->group(function () {
         Route::apiResource('kategorije', KategorijaController::class)->except(['index', 'show']);
+
+        Route::get('/admin/korisnici', [AdminController::class, 'korisnici']);
+        Route::put('/admin/korisnici/{id}/uloga', [AdminController::class, 'primeniUlogu']);
+        Route::get('/admin/analitika', [AdminController::class, 'analitika']);
+
     });
 
     // Transakcije
