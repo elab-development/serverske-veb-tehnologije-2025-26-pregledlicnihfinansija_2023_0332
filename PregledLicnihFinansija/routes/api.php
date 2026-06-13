@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('kategorije', KategorijaController::class)->except(['index', 'show']);
 
         Route::get('/admin/korisnici', [AdminController::class, 'korisnici']);
-        Route::put('/admin/korisnici/{id}/uloga', [AdminController::class, 'primeniUlogu']);
+        Route::put('/admin/korisnici/{id}/uloga', [AdminController::class, 'promeniUlogu']);
         Route::get('/admin/analitika', [AdminController::class, 'analitika']);
         Route::put('/admin/korisnici/{id}/premium', [AdminController::class, 'promeniPremium']);
     });
