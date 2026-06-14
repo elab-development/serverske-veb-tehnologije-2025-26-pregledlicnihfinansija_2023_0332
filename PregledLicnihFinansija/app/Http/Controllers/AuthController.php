@@ -77,4 +77,48 @@ class AuthController extends Controller
             'message' => 'Uspešno ste se odjavili.',
         ]);
     }
+
+    //Zaboravljena lozinka - slanje linka za reset
+    public function zaboravljenaLozinka(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $status = \Illuminate\Support\Facades\Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if($status === \Illuminate\Support\Facades\Password::RESET_LINK_SENT){
+             return response()->json(['poruka' => 'Reset link je poslat na email.']);
+        }
+
+         return response()->json(['poruka' => 'Greška pri slanju reset linka.'], 400);
+    }
+
+    //Reset lozinke
+    public function resetujLozinku(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = \Illuminate\Support\Facades\Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                ])->save();
+            }
+        );
+       
+        if ($status === \Illuminate\Support\Facades\Password::PASSWORD_RESET) {
+            return response()->json(['poruka' => 'Lozinka je uspešno promenjena.']);
+        }
+
+        return response()->json(['poruka' => 'Greška pri resetovanju lozinke.'], 400);
+    }
+
 }
