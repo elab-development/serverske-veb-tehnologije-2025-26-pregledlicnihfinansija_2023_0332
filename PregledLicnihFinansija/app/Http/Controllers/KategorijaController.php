@@ -12,7 +12,7 @@ class KategorijaController extends Controller
     public function index()
     {
         $kategorije = Cache::remember('kategorije', 3600, function () {
-            return Kategorija::all();
+        return Kategorija::all()->toArray();
         });
         return response()->json($kategorije);
     }
