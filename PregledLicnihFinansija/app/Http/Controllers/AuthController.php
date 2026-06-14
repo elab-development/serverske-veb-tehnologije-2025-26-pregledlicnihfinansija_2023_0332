@@ -85,6 +85,10 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users,email',
         ]);
 
+        \Illuminate\Auth\Notifications\ResetPassword::createUrlUsing(function ($user, string $token) {
+        return 'http://localhost:8000/api/reset-lozinka?token=' . $token . '&email=' . $user->email;
+        });
+
         $status = \Illuminate\Support\Facades\Password::sendResetLink(
             $request->only('email')
         );
