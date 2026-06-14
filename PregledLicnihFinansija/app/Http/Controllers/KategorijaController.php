@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategorija;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class KategorijaController extends Controller
 {
     
     public function index()
     {
-        $kategorije = Kategorija::all();
+        $kategorije = Cache::remember('kategorije', 3600, function () {
+            return Kategorija::all();
+        });
         return response()->json($kategorije);
     }
 
@@ -29,6 +32,7 @@ class KategorijaController extends Controller
         ]);
 
         $kategorija = Kategorija::create($request->all());
+        Cache::forget('kategorije');
         return response()->json($kategorija, 201);
     }
 
@@ -50,6 +54,7 @@ class KategorijaController extends Controller
     {
         $kategorija = Kategorija::findOrFail($id);
         $kategorija->update($request->all());
+        Cache::forget('kategorije');
         return response()->json($kategorija);
     }
 
@@ -58,6 +63,7 @@ class KategorijaController extends Controller
     {
         $kategorija = Kategorija::findOrFail($id);
         $kategorija->delete();
+        Cache::forget('kategorije');
         return response()->json(['poruka' => 'Kategorija je obrisana']);
     }
 }
