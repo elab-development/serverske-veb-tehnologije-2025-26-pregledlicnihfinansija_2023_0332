@@ -21,6 +21,9 @@ use App\Http\Middleware\IsPremium;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+//Zaboravljena lozinka
+Route::post('/zaboravljena-lozinka', [AuthController::class, 'zaboravljenaLozinka']);
+Route::post('/reset-lozinka', [AuthController::class, 'resetujLozinku']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
