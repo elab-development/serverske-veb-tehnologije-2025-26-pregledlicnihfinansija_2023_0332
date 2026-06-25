@@ -90,4 +90,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Gejmifikacija
     Route::get('/gejmifikacija/status', [GejmifikacijaController::class, 'status']);
+    Route::get('/gejmifikacija/mesecni-cilj', [GejmifikacijaController::class, 'mesecniCilj']);
+
 });
