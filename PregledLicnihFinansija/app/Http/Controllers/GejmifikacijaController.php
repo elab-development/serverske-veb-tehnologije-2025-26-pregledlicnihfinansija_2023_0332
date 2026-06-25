@@ -36,7 +36,18 @@ class GejmifikacijaController extends Controller
         return 'Pocetnik';
     }
 
+    public function provjeriRedovanUnos($klijentId)
+        {
+            $danas = now()->toDateString();
+            
+            $transakcijaToday = Transakcija::where('klijent_id', $klijentId)
+                ->whereDate('created_at', $danas)
+                ->count();
 
+            if ($transakcijaToday === 1) {
+                $this->dodajPoene($klijentId, 3);
+            }
+        }
 
 
 
