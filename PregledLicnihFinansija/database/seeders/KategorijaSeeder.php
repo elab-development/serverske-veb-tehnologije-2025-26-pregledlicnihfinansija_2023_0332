@@ -34,7 +34,7 @@ class KategorijaSeeder extends Seeder
             ['naziv' => 'Cigarete', 'tip' => 'trosak'],
             ['naziv' => 'Deciji troskovi', 'tip' => 'trosak'],
             ['naziv' => 'Nepredvidjeni trosak', 'tip' => 'trosak'],
-            ['naziv' => 'Nepredvidjeni prihod', 'tip' => 'prihod'],
+            ['naziv' => 'Neredvidjeni prihod', 'tip' => 'prihod'],
 
 
         ];
