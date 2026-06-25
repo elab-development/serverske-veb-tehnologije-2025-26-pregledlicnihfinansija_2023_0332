@@ -49,7 +49,37 @@ class GejmifikacijaController extends Controller
             }
         }
 
+    public function mesecniCilj(Request $request)
+    {
+        $klijent = Klijent::where('user_id', $request->user()->id)->firstOrFail();
+        
+        $mesec = now()->month;
+        $godina = now()->year;
 
+        $limiti = Limit::where('user_id', $request->user()->id)->get();
+
+        $presaoLimit = false;
+
+        foreach ($limiti as $limit) {
+            $potroseno = Transakcija::where('klijent_id', $klijent->id)
+                ->where('kategorija_id', $limit->kategorija_id)
+                ->whereMonth('datum', $mesec)
+                ->whereYear('datum', $godina)
+                ->sum('kolicina');
+
+            if ($potroseno > $limit->iznos) {
+                $presaoLimit = true;
+                break;
+            }
+        }
+
+        if (!$presaoLimit) {
+            $this->dodajPoene($klijent->id, 10);
+            return response()->json(['poruka' => 'Bravo! Ostali ste ispod svih limita ovog meseca! +10 poena']);
+        }
+
+        return response()->json(['poruka' => 'Prešli ste neki limit ovog meseca.']);
+    }
 
 
 
