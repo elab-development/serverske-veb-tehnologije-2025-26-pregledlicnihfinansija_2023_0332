@@ -61,6 +61,15 @@ class TransakcijaController extends Controller
         } elseif ($procenat >= 80) {
             $upozorenje = 'Upozorenje: Potrošili ste ' . round($procenat) . '% od vašeg limita!';
         }
+         else {
+        $gejmifikacija = new \App\Http\Controllers\GejmifikacijaController();
+        $gejmifikacija->dodajPoene($klijent->id, 5);
+    }
+
+
+
+
+
     }
 
     return response()->json([
@@ -144,5 +153,37 @@ class TransakcijaController extends Controller
         return response()->json([
             'message' => 'Transakcija uspešno obrisana.'
         ]);
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
