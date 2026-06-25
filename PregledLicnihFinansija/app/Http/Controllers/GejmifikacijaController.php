@@ -36,7 +36,7 @@ class GejmifikacijaController extends Controller
         return 'Pocetnik';
     }
 
-    public function provjeriRedovanUnos($klijentId)
+    public function proveriRedovanUnos($klijentId)
         {
             $danas = now()->toDateString();
             

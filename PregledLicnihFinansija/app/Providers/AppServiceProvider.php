@@ -26,7 +26,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Transakcija::observe(TransakcijaObserver::class);
-        $this->configureDefaults();  
+        $this->configureDefaults();
+  
     }
 
     /**
