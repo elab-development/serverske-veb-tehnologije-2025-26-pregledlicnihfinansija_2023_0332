@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GejmifikacijaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategorijaController;
 use App\Http\Controllers\TransakcijaController;
@@ -86,4 +87,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profilna-slika', [ProfilnaSlikaController::class, 'upload']);
     Route::get('/profilna-slika', [ProfilnaSlikaController::class, 'show']);
     Route::delete('/profilna-slika', [ProfilnaSlikaController::class, 'destroy']);
+
+    // Gejmifikacija
+    Route::get('/gejmifikacija/status', [GejmifikacijaController::class, 'status']);
 });

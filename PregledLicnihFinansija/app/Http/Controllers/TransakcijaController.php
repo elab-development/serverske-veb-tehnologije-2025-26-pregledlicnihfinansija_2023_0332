@@ -39,6 +39,9 @@ class TransakcijaController extends Controller
         'datum' => $request->datum,
     ]);
 
+    $gejmifikacija = new \App\Http\Controllers\GejmifikacijaController();
+    $gejmifikacija->provjeriRedovanUnos($klijent->id);
+
         if ($klijent->isPremium()) {
             $klijent->azurirajNetWorth();
         }   
@@ -60,11 +63,10 @@ class TransakcijaController extends Controller
             $upozorenje = 'Prešli ste limit za ovu kategoriju!';
         } elseif ($procenat >= 80) {
             $upozorenje = 'Upozorenje: Potrošili ste ' . round($procenat) . '% od vašeg limita!';
+        } else {
+            $gejmifikacija = new \App\Http\Controllers\GejmifikacijaController();
+            $gejmifikacija->dodajPoene($klijent->id, 5);
         }
-         else {
-        $gejmifikacija = new \App\Http\Controllers\GejmifikacijaController();
-        $gejmifikacija->dodajPoene($klijent->id, 5);
-    }
 
 
 
