@@ -9,6 +9,7 @@ use App\Http\Controllers\KlijentController;
 use App\Http\Controllers\KonverzijaController;
 use App\Http\Controllers\IzvestajController;
 use App\Http\Controllers\GrupnaTransakcijaController;
+use App\Http\Controllers\ProfilnaSlikaController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -80,4 +81,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/valute', [KonverzijaController::class, 'valute']);
     Route::post('/konvertuj', [KonverzijaController::class, 'konvertuj']);
     Route::post('/promeni-valutu', [KonverzijaController::class, 'promeniValutu']);
+
+    // Profilna slika
+    Route::post('/profilna-slika', [ProfilnaSlikaController::class, 'upload']);
+    Route::get('/profilna-slika', [ProfilnaSlikaController::class, 'show']);
+    Route::delete('/profilna-slika', [ProfilnaSlikaController::class, 'destroy']);
 });
