@@ -40,7 +40,7 @@ class TransakcijaController extends Controller
     ]);
 
     $gejmifikacija = new \App\Http\Controllers\GejmifikacijaController();
-    $gejmifikacija->provjeriRedovanUnos($klijent->id);
+    $gejmifikacija->proveriRedovanUnos($klijent->id);
 
         if ($klijent->isPremium()) {
             $klijent->azurirajNetWorth();
