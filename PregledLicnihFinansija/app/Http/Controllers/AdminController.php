@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Klijent;
 use App\Models\Transakcija;
 use App\Models\Kategorija;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class AdminController extends Controller
     public function analitika()
     {
         $ukupnoKorisnika = User::count();
+        $ukupnoPremium = Klijent::where('premium_klijent', true)->count();
         $ukupnoTransakcija = Transakcija::count();
         $ukupnoKategorija = Kategorija::count();
         $transakcijePoKategoriji = Transakcija::with('kategorija') 
@@ -59,6 +61,7 @@ class AdminController extends Controller
             
           return response()->json([
             'ukupno_korisnika' => $ukupnoKorisnika,
+             'ukupno_premium' => $ukupnoPremium,
             'ukupno_transakcija' => $ukupnoTransakcija,
             'ukupno_kategorija' => $ukupnoKategorija,
             'transakcije_po_kategoriji' => $transakcijePoKategoriji,
