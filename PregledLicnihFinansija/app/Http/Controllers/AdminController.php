@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function korisnici()
     {
-        $korisnici = User::all();
+        $korisnici = User::with('klijent')->get();
         return response()->json($korisnici);
     }
 
@@ -34,7 +34,7 @@ class AdminController extends Controller
         ]);
 
         $klijent = \App\Models\Klijent::where('user_id', $id)->firstOrFail();
-        $klijent->update(['isPremium' => $request->isPremium]);
+        $klijent->update(['premium_klijent' => $request->isPremium]);
 
         return response()->json(['poruka' => 'Premium status uspesno postavljen', 'klijent' => $klijent]);
 
